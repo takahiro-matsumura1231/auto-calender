@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://script.google.com https://script.googleusercontent.com;">
+    <title>カレンダー連続登録</title>
+    <style>
+        :root {
+            --bubble-bg: #e9e9eb;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --sending-color: #6c757d;
+        }
+        body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; background-color: #b3d7d0; }
+        
+        /* 送信履歴エリア */
+        #historyContainer { flex-grow: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column-reverse; }
+        .message-bubble { max-width: 80%; padding: 10px 15px; margin-bottom: 10px; border-radius: 18px; background-color: var(--bubble-bg); word-wrap: break-word; white-space: pre-wrap; align-self: flex-start; }
+        .message-status { font-size: 0.8em; font-weight: bold; text-align: right; margin-top: 5px; }
+        .status-success { color: var(--success-color); }
+        .status-error { color: var(--error-color); }
+        .status-sending { color: var(--sending-color); }
+
+        /* 入力エリア */
+        .input-area { padding: 10px; border-top: 1px solid #ccc; background-color: #f4f4f4; display: flex; align-items: center; }
+        textarea { flex-grow: 1; height: 40px; padding: 10px; border-radius: 18px; border: 1px solid #ccc; resize: none; font-size: 1em; max-height: 100px; }
+        button { width: 50px; height: 40px; margin-left: 10px; font-size: 1.5em; border-radius: 50%; border: none; background-color: #007bff; color: white; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div id="historyContainer"></div>
+    <div class="input-area">
+        <textarea id="emailBody" placeholder="メール本文を貼り付け..."></textarea>
+        <button id="sendButton">▲</button>
+    </div>
+    <script src="../dist/renderer.js"></script>
+</body>
+</html>
