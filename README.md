@@ -76,9 +76,9 @@ creating automaticaly event on my calender by scanning email text with LLM
 
 | 機能 | 使用技術 |
 |------|-----------|
-| フロントエンド | Python / Electron / Tkinter (例) |
+| フロントエンド | Python / Electron 
 | バックエンド | Google Apps Script (GAS) |
-| AI解析 | Google AI (PaLM or GeminiなどのAPI) |
+| AI解析 | Google AI Gemini 2.5Pro
 | カレンダー操作 | Google Calendar API |
 
 ---
@@ -87,7 +87,6 @@ creating automaticaly event on my calender by scanning email text with LLM
 
 - Gmailと自動連携し、受信メールから自動抽出
 - スマートフォンアプリ版の開発
-- 英語対応、多言語対応
 
 ---
 
