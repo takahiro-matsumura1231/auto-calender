@@ -1,67 +1,98 @@
-📅 Auto-Calendar: メール文から自動で予定登録
-Auto-Calendar は、メール本文をもとに Google カレンダーに予定を自動登録するシステムです。
+# 🗕 Auto-Calendar - メール文本から予定を自動登録！
 
-このシステムは、以下の2つのコンポーネントから構成されています：
+**Auto-Calendar** は、メール文本を貼り付けるだけで、Google カレンダーに予定を自動登録できるアプリケーションです。  
+自然な日本語の文章から「件名」「日時」「場所」を自動で抽出し、予定をカレンダーに登録します。
 
-💻 PCアプリ（フロントエンド）
+---
 
-☁️ GAS（Google Apps Script｜バックエンド）
+## 🚀 特長
 
+- ✨ メールの文章を貼り付けるだけ
+- 🤖 Google AIで文章を自動解析
+- 📆 Google カレンダーに自動で予定を登録
+- 💻 PCアプリ＋☁️ Google Apps Script（GAS）の連携
+
+---
 🗂 システム構成図
 ![Mermaid Chart - Create complex, visual diagrams with text  A smarter way of creating diagrams -2025-07-19-183957](https://github.com/user-attachments/assets/c117228f-ae82-4071-8d22-b007cbc70732)# auto-calender
 creating automaticaly event on my calender by scanning email text with LLM
 
 
+---
 
-🖥️ フロントエンド（PCアプリ）
-ユーザーが メール本文 を入力
+## 🖥 フロントエンド：PCアプリ
 
-「送信」ボタンを押すとバックエンド（GAS）へ送信
+- ユーザーがメール文本を入力し、「送信」ボタンをクリック
+- バックエンド（GAS）へ文本を送信
+- 処理結果（成功／失敗）を画面に表示
 
-結果（成功/失敗）を画面に表示
+---
 
-⚙️ バックエンド（GAS）
-PCアプリから メール本文 を受信
+## ☁️ バックエンド：Google Apps Script（GAS）
 
-受け取った本文を Google AI に渡し、
+- PCアプリから文本を受信
+- Google AI に自然言語処理を依頼
+- 抽出した「件名・日時・場所」で予定を生成
+- Google Calendar API を通じてカレンダーに登録
+- 結果をフロントエンドに返却
 
-件名（タイトル）
+---
 
-日時
+## 🤖 Google AI：自然言語処理の専門家
 
-場所
-を抽出するよう依頼
+- GASから依頼されたメール文本を解析
+- 件名、日時、場所などの必要情報を抽出
 
-抽出結果をもとに Google Calendar API へ予定登録
+---
 
-結果（成功・失敗）をフロントエンドへ返却
+## 📆 Google Calendar API：実務担当
 
-🧠 Google AI（自然言語処理の専門家）
-GASから渡されたメール本文を解析
+- 抽出された情報をもとに、Googleカレンダーに新規予定を作成
 
-カレンダー登録に必要な情報（件名・日時・場所など）を抽出
+---
 
-📆 Google Calendar API（実務担当）
-GASの指示通りにカレンダーへ新規予定を登録
+## 🔁 全体の流れまとめ
 
-✅ 動作の流れまとめ
-メール本文をPCアプリで入力・送信
+1. ユーザーがPCアプリでメール文本を入力
+2. GASがGoogle AIへ自然言語解析を依頼
+3. 抽出情報をもとにGoogle Calendarへ予定登録
+4. 処理結果をPCアプリへ返却
 
-GASがGoogle AIで内容解析
+---
 
-抽出された予定情報をGoogle Calendarに登録
+## 📝 入力例
 
-登録結果をPCアプリへ通知
-
-📝 使い方の例（今後追加予定）
-PCアプリから次のようなメール本文を送信すると：
-
-less
-Copy
-Edit
+```text
 件名：定例ミーティング  
-日時：2025年7月25日(金) 14:00〜15:00  
-場所：東京本社 3F 会議室B
-Googleカレンダーに自動で登録されます ✅
+日時：2025年7月25日（金） 14:00〜15:00  
+場所：東京本社3階 会議室B
+```
 
+→ この内容が自動的にGoogleカレンダーへ登録されます ✅
 
+---
+
+## ⚙️ 技術構成
+
+| 機能 | 使用技術 |
+|------|-----------|
+| フロントエンド | Python / Electron / Tkinter (例) |
+| バックエンド | Google Apps Script (GAS) |
+| AI解析 | Google AI (PaLM or GeminiなどのAPI) |
+| カレンダー操作 | Google Calendar API |
+
+---
+
+## 📌 今後の展望（Ideas）
+
+- Gmailと自動連携し、受信メールから自動抽出
+- スマートフォンアプリ版の開発
+- 英語対応、多言語対応
+
+---
+
+## 📄 ライセンス
+
+MIT License
+
+---
