@@ -1,37 +1,54 @@
 /**
- * 外部からのPOSTリクエストを受け取るための特別な関数
- * @param {Object} e - リクエストに関する情報を含むイベントオブジェクト
+ * 外部サービスからの POST を受け取り、
+ * メール本文を解析して Google カレンダーに予定を登録する。
+ *
+ * @param {GoogleAppsScript.Events.DoPost} e
+ * @return {GoogleAppsScript.Content.TextOutput}
  */
 function doPost(e) {
   try {
-    // 1. 送信されてきたデータ（メール本文）を取得する
-    const emailBody = e.postData.contents;
-    
-    if (!emailBody) {
-      throw new Error("メール本文が空です。");
-    }
-    
-    console.log("外部リクエストからメール本文を受信しました。");
+    /* 1️⃣ リクエスト本文の取り出し */
+    const contentType = e.postData.type;
+    let emailBody = '';
 
-    // 2. LLMを使って情報を抽出する（既存の関数を呼び出す）
+    if (contentType === 'application/json') {
+      const payload = JSON.parse(e.postData.contents || '{}');
+      emailBody = payload.email_body || '';
+    } else { // text/plain 等
+      emailBody = e.postData.contents || '';
+    }
+
+    if (!emailBody) {
+      return buildResponse(400, 'email_body が空です。');
+    }
+
+    /* 2️⃣ LLM でイベント情報抽出（既存関数） */
     const eventData = extractEventInfoWithLLM(emailBody);
 
-    // 3. カレンダーに登録する（既存の関数を呼び出す）
-    if (eventData && eventData.title) {
-      createCalendarEvent(eventData);
-      // 成功したことを示すJSONを返す
-      return ContentService
-        .createTextOutput(JSON.stringify({ status: 'success', message: `予定「${eventData.title}」を登録しました。` }))
-        .setMimeType(ContentService.MimeType.JSON);
+    /* 3️⃣ カレンダー登録（既存関数） */
+    if (eventData) {
+      createCalendarEvents(eventData);
+      return buildResponse(200, 'イベントを作成しました。');
     } else {
-      throw new Error("予定情報の抽出に失敗しました。");
+      return buildResponse(200, '登録対象のイベントが見つかりませんでした。');
     }
-
-  } catch (error) {
-    console.error("エラーが発生しました:", error.message);
-    // 失敗したことを示すJSONを返す
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: 'error', message: error.message }))
-      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    console.error(err);
+    return buildResponse(500, `サーバエラー：${err.message}`);
   }
+}
+
+/**
+ * JSON レスポンスを生成する簡易ヘルパ
+ *
+ * @param {number} statusCode
+ * @param {string} message
+ * @return {GoogleAppsScript.Content.TextOutput}
+ */
+function buildResponse(statusCode, message) {
+  const output = ContentService.createTextOutput(
+    JSON.stringify({ status: statusCode, message })
+  );
+  output.setMimeType(ContentService.MimeType.JSON);
+  return output;
 }

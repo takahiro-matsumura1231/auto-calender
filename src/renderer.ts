@@ -9,7 +9,7 @@ interface Message {
     resultMessage: string;
 }
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzIyjyZi-3YgkAsFGCQeOfsfDZJT3P5pJ_56weaB5lNmqynn76LU5XUo7-0uiPnPYrp/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbySuZ-iUSj7voDVz-lsRY1pY7dkAKwVbWoLgmjPp5kac-fb_DZ8To4F4FN0CbzJPtuU/exec";
 let messages: Message[] = [];
 
 const historyContainer = document.getElementById('historyContainer')!;
@@ -77,7 +77,7 @@ async function handleSend() {
 
         // 4. 結果に応じてメッセージの状態を更新
         const targetMsg = messages.find(m => m.id === newMessage.id)!;
-        if (result.status === 'success') {
+        if (response.ok && result.status === 200) {
             targetMsg.status = 'success';
             targetMsg.resultMessage = `✅ ${result.message}`;
         } else {
